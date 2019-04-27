@@ -1,0 +1,3 @@
+npm init
+npm install --save express mysql body-parser nodemon
+"start": "nodemon index.js"
