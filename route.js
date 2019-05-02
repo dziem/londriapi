@@ -13,7 +13,8 @@ module.exports = (app) => {
 	app.get('/delete_type/:id', auth.isAuth ,models.delete_type);
 	app.get('/get_all_laundry', auth.isAuth ,models.all_order);
 	app.get('/get_detail_laundry/:id', auth.isAuth ,models.detail_order);
-	app.get('/update_laundry/:id',auth.isAuth, models.laundry_picked);
+	app.get('/get_laundry_by_month/:month', auth.isAuth ,models.order_by_month);
+	app.patch('/update_laundry/',auth.isAuth, models.laundry_picked);
 	app.post('/login', models.login);
 	app.post('/update_member', auth.isAuth ,models.update_member);
 	app.post('/update_type', auth.isAuth ,models.update_type);

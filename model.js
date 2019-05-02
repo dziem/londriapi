@@ -277,7 +277,7 @@ exports.laundry_picked = (req, res) => {
 	var thestatus = 'Sudah diambil';
     var date = new Date().toLocaleString().slice(0, 9)
 	var time = new Date().toLocaleString().slice(10)
-    var id_laundry = req.params.id;
+    var id_laundry = req.body.id;
 
     connection.query('UPDATE laundry SET status= ? , tanggal_ambil = ?, waktu_ambil = ? where id_laundry = ?',[thestatus , date,time, id_laundry], (error, rows, fields)=>{
         if(error){
@@ -286,6 +286,18 @@ exports.laundry_picked = (req, res) => {
             response.ok({'message' : 'berhasil ganti status laundry'}, res)
         }
     });
+};
+
+//GET ORDER BY MONTH
+exports.order_by_month = (req, res) => {
+	var month = req.params.month;
+    connection.query("SELECT * FROM laundry WHERE tanggal_terima LIKE '%-"+month+"-%' ORDER BY tanggal_terima DESC, waktu_terima DESC",(error,rows,fields)=>{
+        if(error){
+            response.gagal(error,res)
+        } else{
+            response.ok(rows, res)
+        }
+    })
 };
 
 //INDEX
