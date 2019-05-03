@@ -105,7 +105,7 @@ exports.update_member = (req, res) => {
 //DELETE MEMBER
 exports.delete_member  = (req, res) => {
 
-    var id_member = req.params.id;
+    var id_member = req.body.id;
 
     connection.query('DELETE FROM member where id_member = ?',[id_member], (error, rows, fields)=>{
         if(error){
@@ -173,7 +173,7 @@ exports.update_type = (req, res) => {
 //DELETE TYPE
 exports.delete_type  = (req, res) => {
 
-    var id_tipe = req.params.id;
+    var id_tipe = req.body.id;
 
     connection.query('DELETE FROM tipe where id_tipe = ?',[id_tipe], (error, rows, fields)=>{
         if(error){
@@ -187,8 +187,19 @@ exports.delete_type  = (req, res) => {
 //INSERT ORDER LAUNDRY
 exports.tambah_laundry = (req, res) => {
     var id_member = req.body.id_member;
-	var date = new Date().toLocaleString().slice(0, 9)
-	var time = new Date().toLocaleString().slice(10)
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth() + 1; //January is 0!
+
+	var yyyy = today.getFullYear();
+	if (dd < 10) {
+	  dd = '0' + dd;
+	} 
+	if (mm < 10) {
+	  mm = '0' + mm;
+	}
+	var date = dd + '-' + mm + '-' + yyyy;
+	var time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
     var thestatus = 'Pesanan diterima';
 	var item = req.body.id_tipe;
 	var qty = req.body.quantity;
@@ -275,8 +286,19 @@ exports.laundry_done = (req, res) => {
 //UPDATE STATUS DIAMBIL
 exports.laundry_picked = (req, res) => {
 	var thestatus = 'Sudah diambil';
-    var date = new Date().toLocaleString().slice(0, 9)
-	var time = new Date().toLocaleString().slice(10)
+    var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth() + 1; //January is 0!
+
+	var yyyy = today.getFullYear();
+	if (dd < 10) {
+	  dd = '0' + dd;
+	} 
+	if (mm < 10) {
+	  mm = '0' + mm;
+	}
+	var date = dd + '-' + mm + '-' + yyyy;
+	var time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
     var id_laundry = req.body.id;
 
     connection.query('UPDATE laundry SET status= ? , tanggal_ambil = ?, waktu_ambil = ? where id_laundry = ?',[thestatus , date,time, id_laundry], (error, rows, fields)=>{
