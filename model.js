@@ -32,9 +32,22 @@ exports.login = (req, res) => {
             if(rows.length == 0){
 				response.ok({'message' : 'username atau password salah'}, res)
 			}else{
-				var time = new Date().toLocaleString();
+				var today = new Date();
+				var dd = today.getDate();
+				var mm = today.getMonth() + 1; //January is 0!
+
+				var yyyy = today.getFullYear();
+				if (dd < 10) {
+				  dd = '0' + dd;
+				} 
+				if (mm < 10) {
+				  mm = '0' + mm;
+				}
+				var date = dd + '-' + mm + '-' + yyyy;
+				var time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
+				var last_login = date + ' ' + time;
 				var aidi = rows[0].id_pegawai;
-				connection.query('UPDATE pegawai SET last_login = ? where id_pegawai = ?',[time , aidi], (error2, rows2, fields2)=>{
+				connection.query('UPDATE pegawai SET last_login = ? where id_pegawai = ?',[last_login , aidi], (error2, rows2, fields2)=>{
 					if(error){
 						response.gagal(error2,res)
 					} else{
