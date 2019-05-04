@@ -105,7 +105,7 @@ exports.update_member = (req, res) => {
 //DELETE MEMBER
 exports.delete_member  = (req, res) => {
 
-    var id_member = req.body.id;
+    var id_member = req.params.id;
 
     connection.query('DELETE FROM member where id_member = ?',[id_member], (error, rows, fields)=>{
         if(error){
@@ -173,7 +173,7 @@ exports.update_type = (req, res) => {
 //DELETE TYPE
 exports.delete_type  = (req, res) => {
 
-    var id_tipe = req.body.id;
+    var id_tipe = req.params.id;
 
     connection.query('DELETE FROM tipe where id_tipe = ?',[id_tipe], (error, rows, fields)=>{
         if(error){

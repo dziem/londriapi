@@ -9,8 +9,8 @@ module.exports = (app) => {
 	app.get('/get_all_type', auth.isAuth ,models.get_type);
 	app.get('/find_member/:id', auth.isAuth ,models.cari_member);
 	app.get('/find_type/:id', auth.isAuth ,models.cari_tipe);
-	app.delete('/delete_member', auth.isAuth ,models.delete_member);
-	app.delete('/delete_type', auth.isAuth ,models.delete_type);
+	app.delete('/delete_member/:id', auth.isAuth ,models.delete_member);
+	app.delete('/delete_type/:id', auth.isAuth ,models.delete_type);
 	app.get('/get_all_laundry', auth.isAuth ,models.all_order);
 	app.get('/get_detail_laundry/:id', auth.isAuth ,models.detail_order);
 	app.get('/get_laundry_by_month/:month', auth.isAuth ,models.order_by_month);
