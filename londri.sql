@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 27, 2019 at 04:36 PM
+-- Generation Time: May 04, 2019 at 11:35 AM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.10
 
@@ -39,12 +39,8 @@ CREATE TABLE `detail_laundry` (
 --
 
 INSERT INTO `detail_laundry` (`id_laundry`, `id_tipe`, `quantity`) VALUES
-(56537651, 1, 5),
-(56537651, 2, 6),
-(75690731, 1, 2),
-(75690731, 2, 1),
-(77532212, 1, 3),
-(77532212, 2, 2);
+(45565416, 1, 2),
+(45565416, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -54,7 +50,7 @@ INSERT INTO `detail_laundry` (`id_laundry`, `id_tipe`, `quantity`) VALUES
 
 CREATE TABLE `laundry` (
   `id_laundry` int(11) NOT NULL,
-  `id_member` int(11) NOT NULL,
+  `no_tel` varchar(20) NOT NULL,
   `tanggal_terima` varchar(20) NOT NULL,
   `waktu_terima` varchar(20) NOT NULL,
   `tanggal_ambil` varchar(20) NOT NULL,
@@ -68,10 +64,8 @@ CREATE TABLE `laundry` (
 -- Dumping data for table `laundry`
 --
 
-INSERT INTO `laundry` (`id_laundry`, `id_member`, `tanggal_terima`, `waktu_terima`, `tanggal_ambil`, `waktu_ambil`, `status`, `total_harga`, `nomor_rak`) VALUES
-(56537651, 2, '2019-4-27', '20:08:54', '2019-4-27', '20:42:26', 'Sudah diambil', '85000', 'B16'),
-(75690731, 2, '2019-4-27', '20:10:01', '', '', 'Pesanan diterima', '20000', ''),
-(77532212, 2, '2019-4-27', '21:30:35', '2019-4-27', '21:33:04', 'Sudah diambil', '35000', 'K20');
+INSERT INTO `laundry` (`id_laundry`, `no_tel`, `tanggal_terima`, `waktu_terima`, `tanggal_ambil`, `waktu_ambil`, `status`, `total_harga`, `nomor_rak`) VALUES
+(45565416, '123', '04-05-2019', '16:18:24', '', '', 'Pesanan diterima', '20000', '');
 
 -- --------------------------------------------------------
 
@@ -112,7 +106,7 @@ CREATE TABLE `pegawai` (
 --
 
 INSERT INTO `pegawai` (`id_pegawai`, `username`, `password`, `nama`, `last_login`) VALUES
-(1, 'pleb', 'pleb', 'Mr Pleb', '2019-4-27 21:03:56');
+(1, 'pleb', 'pleb', 'Mr Pleb', '2019-5-3 16:09:28');
 
 -- --------------------------------------------------------
 
@@ -150,13 +144,14 @@ ALTER TABLE `detail_laundry`
 --
 ALTER TABLE `laundry`
   ADD PRIMARY KEY (`id_laundry`),
-  ADD KEY `fk_member` (`id_member`);
+  ADD KEY `fk_member` (`no_tel`);
 
 --
 -- Indexes for table `member`
 --
 ALTER TABLE `member`
-  ADD PRIMARY KEY (`id_member`);
+  ADD PRIMARY KEY (`id_member`),
+  ADD UNIQUE KEY `no_tel` (`no_tel`);
 
 --
 -- Indexes for table `pegawai`
@@ -207,7 +202,7 @@ ALTER TABLE `detail_laundry`
 -- Constraints for table `laundry`
 --
 ALTER TABLE `laundry`
-  ADD CONSTRAINT `fk_member` FOREIGN KEY (`id_member`) REFERENCES `member` (`id_member`);
+  ADD CONSTRAINT `fk_member` FOREIGN KEY (`no_tel`) REFERENCES `member` (`no_tel`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

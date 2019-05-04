@@ -186,7 +186,7 @@ exports.delete_type  = (req, res) => {
 
 //INSERT ORDER LAUNDRY
 exports.tambah_laundry = (req, res) => {
-    var id_member = req.body.id_member;
+    var no_tel = req.body.no_tel;
 	var today = new Date();
 	var dd = today.getDate();
 	var mm = today.getMonth() + 1; //January is 0!
@@ -218,7 +218,7 @@ exports.tambah_laundry = (req, res) => {
 					}
 				}
 			}
-			connection.query('INSERT INTO laundry (id_laundry , id_member, tanggal_terima, waktu_terima, status, total_harga) vaLues (?,?,?,?,?,?)',[aidi , id_member, date,time, thestatus, totalharga], (error, rows, fields)=>{
+			connection.query('INSERT INTO laundry (id_laundry , no_tel, tanggal_terima, waktu_terima, status, total_harga) vaLues (?,?,?,?,?,?)',[aidi , no_tel, date,time, thestatus, totalharga], (error, rows, fields)=>{
 				if(error){
 					response.gagal(error,res)
 				} else{
@@ -320,6 +320,38 @@ exports.order_by_month = (req, res) => {
             response.ok(rows, res)
         }
     })
+};
+
+//READ ALL ACTIVE ORDER
+exports.order_active = (req, res) => {
+
+    connection.query("SELECT nama, m.no_tel, id_laundry, tanggal_terima, waktu_terima, status, total_harga, nomor_rak FROM laundry l JOIN member m ON l.no_tel = m.no_tel WHERE tanggal_ambil = '' AND waktu_ambil = '' ORDER BY tanggal_terima DESC, waktu_terima DESC",(error,rows,fields)=>{
+        if(error){
+            response.gagal(error,res)
+        } else{
+            response.ok(rows, res)
+        }
+    })
+};
+
+//DELETE LAUNDRY
+exports.delete_laundry  = (req, res) => {
+
+    var id_laundry = req.params.id;
+
+    connection.query('DELETE FROM detail_laundry where id_laundry = ?',[id_laundry], (error, rows, fields)=>{
+        if(error){
+            response.gagal(error,res)
+        } else{
+            connection.query('DELETE FROM laundry where id_laundry = ?',[id_laundry], (error, rows, fields)=>{
+				if(error){
+					response.gagal(error,res)
+				} else{
+					response.ok({'message' : 'berhasil hapus laundry'}, res)
+				}
+			});
+        }
+    });
 };
 
 //INDEX
