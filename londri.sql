@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 04, 2019 at 11:35 AM
+-- Generation Time: May 04, 2019 at 03:22 PM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.10
 
@@ -39,8 +39,8 @@ CREATE TABLE `detail_laundry` (
 --
 
 INSERT INTO `detail_laundry` (`id_laundry`, `id_tipe`, `quantity`) VALUES
-(45565416, 1, 2),
-(45565416, 2, 1);
+(61979777, 1, 2),
+(61979777, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -50,7 +50,7 @@ INSERT INTO `detail_laundry` (`id_laundry`, `id_tipe`, `quantity`) VALUES
 
 CREATE TABLE `laundry` (
   `id_laundry` int(11) NOT NULL,
-  `no_tel` varchar(20) NOT NULL,
+  `id_member` int(11) NOT NULL,
   `tanggal_terima` varchar(20) NOT NULL,
   `waktu_terima` varchar(20) NOT NULL,
   `tanggal_ambil` varchar(20) NOT NULL,
@@ -64,8 +64,8 @@ CREATE TABLE `laundry` (
 -- Dumping data for table `laundry`
 --
 
-INSERT INTO `laundry` (`id_laundry`, `no_tel`, `tanggal_terima`, `waktu_terima`, `tanggal_ambil`, `waktu_ambil`, `status`, `total_harga`, `nomor_rak`) VALUES
-(45565416, '123', '04-05-2019', '16:18:24', '', '', 'Pesanan diterima', '20000', '');
+INSERT INTO `laundry` (`id_laundry`, `id_member`, `tanggal_terima`, `waktu_terima`, `tanggal_ambil`, `waktu_ambil`, `status`, `total_harga`, `nomor_rak`) VALUES
+(61979777, 2, '04-05-2019', '20:15:31', '', '', 'Pesanan diterima', '20000', '');
 
 -- --------------------------------------------------------
 
@@ -106,7 +106,7 @@ CREATE TABLE `pegawai` (
 --
 
 INSERT INTO `pegawai` (`id_pegawai`, `username`, `password`, `nama`, `last_login`) VALUES
-(1, 'pleb', 'pleb', 'Mr Pleb', '2019-5-3 16:09:28');
+(1, 'pleb', 'pleb', 'Mr Pleb', '04-05-2019 16:40:39');
 
 -- --------------------------------------------------------
 
@@ -144,7 +144,7 @@ ALTER TABLE `detail_laundry`
 --
 ALTER TABLE `laundry`
   ADD PRIMARY KEY (`id_laundry`),
-  ADD KEY `fk_member` (`no_tel`);
+  ADD KEY `fk_member` (`id_member`);
 
 --
 -- Indexes for table `member`
@@ -185,7 +185,7 @@ ALTER TABLE `pegawai`
 -- AUTO_INCREMENT for table `tipe`
 --
 ALTER TABLE `tipe`
-  MODIFY `id_tipe` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_tipe` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
@@ -202,7 +202,7 @@ ALTER TABLE `detail_laundry`
 -- Constraints for table `laundry`
 --
 ALTER TABLE `laundry`
-  ADD CONSTRAINT `fk_member` FOREIGN KEY (`no_tel`) REFERENCES `member` (`no_tel`);
+  ADD CONSTRAINT `fk_member` FOREIGN KEY (`id_member`) REFERENCES `member` (`id_member`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -218,40 +218,51 @@ exports.tambah_laundry = (req, res) => {
 	var qty = req.body.quantity;
 	var totalharga = 0;
 	var aidi = generator.generate();
-	connection.query('SELECT * FROM tipe', (error, rows, fields)=>{
-        if(error){
+	connection.query('SELECT * FROM member where no_tel = ?',[no_tel], (error, rows, fields)=>{
+		if(error){
             response.gagal(error,res)
         } else{
-			var masuk =[];
-            for(var i in item){
-				masuk.push([aidi, item[i], qty[i]]);
-				for(var j in rows){
-					if(rows[j].id_tipe == item[i]){
-						totalharga += qty[i] * rows[j].harga_per_qty;
-					}
-				}
-			}
-			connection.query('INSERT INTO laundry (id_laundry , no_tel, tanggal_terima, waktu_terima, status, total_harga) vaLues (?,?,?,?,?,?)',[aidi , no_tel, date,time, thestatus, totalharga], (error, rows, fields)=>{
-				if(error){
-					response.gagal(error,res)
-				} else{
-					connection.query('INSERT INTO detail_laundry (id_laundry , id_tipe, quantity) vaLues ?',[masuk], (error, rows, fields)=>{
+			if(rows.length > 0){
+				var id_member = rows[0].id_member;
+				connection.query('SELECT * FROM tipe', (error, rows, fields)=>{
 					if(error){
 						response.gagal(error,res)
 					} else{
-						response.ok({'message' : 'berhasil input laundry'}, res);
+						var masuk =[];
+						for(var i in item){
+							masuk.push([aidi, item[i], qty[i]]);
+							for(var j in rows){
+								if(rows[j].id_tipe == item[i]){
+									totalharga += qty[i] * rows[j].harga_per_qty;
+								}
+							}
+						}
+						connection.query('INSERT INTO laundry (id_laundry , id_member, tanggal_terima, waktu_terima, status, total_harga) vaLues (?,?,?,?,?,?)',[aidi , id_member, date,time, thestatus, totalharga], (error, rows, fields)=>{
+							if(error){
+								response.gagal(error,res)
+							} else{
+								connection.query('INSERT INTO detail_laundry (id_laundry , id_tipe, quantity) vaLues ?',[masuk], (error, rows, fields)=>{
+								if(error){
+									response.gagal(error,res)
+								} else{
+									response.ok({'message' : 'berhasil input laundry'}, res);
+								}
+							});
+							}
+						});
 					}
 				});
-				}
-			});
-        }
-    });
+			}else{
+				response.ok({'message' : 'gagal tambah orderan laundry, nomor telepon tidak ada'}, res);
+			}
+		}
+	});
 };
 
 //READ ALL ORDER
 exports.all_order = (req, res) => {
 
-    connection.query('SELECT * FROM laundry ORDER BY tanggal_terima DESC, waktu_terima DESC',(error,rows,fields)=>{
+    connection.query('SELECT * FROM laundry l JOIN member m ON l.id_member = m.id_member ORDER BY tanggal_terima DESC, waktu_terima DESC',(error,rows,fields)=>{
         if(error){
             response.gagal(error,res)
         } else{
@@ -264,7 +275,7 @@ exports.all_order = (req, res) => {
 exports.detail_order = (req, res) => {
     var id_laundry = req.params.id;
 	var resolt = [];
-    connection.query('SELECT * FROM laundry WHERE id_laundry = ?',[id_laundry],(error,rows,fields)=>{
+    connection.query('SELECT * FROM laundry l JOIN member m ON l.id_member = m.id_member WHERE id_laundry = ?',[id_laundry],(error,rows,fields)=>{
         if(error){
             response.gagal(error,res)
         } else{
@@ -326,7 +337,7 @@ exports.laundry_picked = (req, res) => {
 //GET ORDER BY MONTH
 exports.order_by_month = (req, res) => {
 	var month = req.params.month;
-    connection.query("SELECT * FROM laundry WHERE tanggal_terima LIKE '%-"+month+"-%' ORDER BY tanggal_terima DESC, waktu_terima DESC",(error,rows,fields)=>{
+    connection.query("SELECT * FROM laundry l JOIN member m ON l.id_member = m.id_member WHERE tanggal_terima LIKE '%-"+month+"-%' ORDER BY tanggal_terima DESC, waktu_terima DESC",(error,rows,fields)=>{
         if(error){
             response.gagal(error,res)
         } else{
@@ -338,7 +349,7 @@ exports.order_by_month = (req, res) => {
 //READ ALL ACTIVE ORDER
 exports.order_active = (req, res) => {
 
-    connection.query("SELECT nama, m.no_tel, id_laundry, tanggal_terima, waktu_terima, status, total_harga, nomor_rak FROM laundry l JOIN member m ON l.no_tel = m.no_tel WHERE tanggal_ambil = '' AND waktu_ambil = '' ORDER BY tanggal_terima DESC, waktu_terima DESC",(error,rows,fields)=>{
+    connection.query("SELECT nama, no_tel, id_laundry, tanggal_terima, waktu_terima, status, total_harga, nomor_rak FROM laundry l JOIN member m ON l.id_member = m.id_member WHERE tanggal_ambil = '' AND waktu_ambil = '' ORDER BY tanggal_terima DESC, waktu_terima DESC",(error,rows,fields)=>{
         if(error){
             response.gagal(error,res)
         } else{
