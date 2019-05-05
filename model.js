@@ -293,7 +293,7 @@ exports.detail_order = (req, res) => {
             response.gagal(error,res)
         } else{
 			resolt.push(rows);
-            connection.query('SELECT * FROM detail_laundry WHERE id_laundry = ?',[id_laundry],(error2,rows2,fields2)=>{
+            connection.query('SELECT * FROM detail_laundry d JOIN tipe t ON d.id_tipe = t.id_tipe WHERE id_laundry = ?',[id_laundry],(error2,rows2,fields2)=>{
 			if(error){
 				response.gagal(error2,res)
 			} else{
