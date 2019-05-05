@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 04, 2019 at 03:22 PM
+-- Generation Time: May 05, 2019 at 06:26 AM
 -- Server version: 10.1.28-MariaDB
 -- PHP Version: 7.1.10
 
@@ -40,7 +40,9 @@ CREATE TABLE `detail_laundry` (
 
 INSERT INTO `detail_laundry` (`id_laundry`, `id_tipe`, `quantity`) VALUES
 (61979777, 1, 2),
-(61979777, 2, 1);
+(61979777, 2, 1),
+(74330477, 1, 2),
+(74330477, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -53,11 +55,11 @@ CREATE TABLE `laundry` (
   `id_member` int(11) NOT NULL,
   `tanggal_terima` varchar(20) NOT NULL,
   `waktu_terima` varchar(20) NOT NULL,
-  `tanggal_ambil` varchar(20) NOT NULL,
-  `waktu_ambil` varchar(20) NOT NULL,
+  `tanggal_ambil` varchar(20) DEFAULT NULL,
+  `waktu_ambil` varchar(20) DEFAULT NULL,
   `status` varchar(20) NOT NULL,
   `total_harga` varchar(20) NOT NULL,
-  `nomor_rak` varchar(20) NOT NULL
+  `nomor_rak` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -65,7 +67,8 @@ CREATE TABLE `laundry` (
 --
 
 INSERT INTO `laundry` (`id_laundry`, `id_member`, `tanggal_terima`, `waktu_terima`, `tanggal_ambil`, `waktu_ambil`, `status`, `total_harga`, `nomor_rak`) VALUES
-(61979777, 2, '04-05-2019', '20:15:31', '', '', 'Pesanan diterima', '20000', '');
+(61979777, 2, '04-05-2019', '20:15:31', '', '', 'Pesanan diterima', '20000', ''),
+(74330477, 2, '05-05-2019', '11:25:3', '05-05-2019', '11:25:55', 'Sudah diambil', '20000', 'S15');
 
 -- --------------------------------------------------------
 
@@ -173,7 +176,7 @@ ALTER TABLE `tipe`
 -- AUTO_INCREMENT for table `member`
 --
 ALTER TABLE `member`
-  MODIFY `id_member` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_member` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `pegawai`
