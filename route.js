@@ -8,6 +8,7 @@ module.exports = (app) => {
 	app.get('/get_all_member', auth.isAuth ,models.get_member);
 	app.get('/get_all_type', auth.isAuth ,models.get_type);
 	app.get('/find_member/:id', auth.isAuth ,models.cari_member);
+	app.get('/get_member_by_phone/:nomor', auth.isAuth ,models.cari_member_pake_nomer);
 	app.get('/find_type/:id', auth.isAuth ,models.cari_tipe);
 	app.delete('/delete_member/:id', auth.isAuth ,models.delete_member);
 	app.delete('/delete_type/:id', auth.isAuth ,models.delete_type);

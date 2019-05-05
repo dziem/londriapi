@@ -98,6 +98,19 @@ exports.cari_member = (req, res) => {
     })
 };
 
+//GET MEMBER BY PHONE NUMBER
+exports.cari_member_pake_nomer = (req, res) => {
+    var no_tel = req.params.nomor;
+
+    connection.query('SELECT * FROM member where no_tel = ?',[no_tel],(error,rows,fields)=>{
+        if(error){
+            response.gagal(error,res)
+        } else{
+            response.ok(rows, res)
+        }
+    })
+};
+
 //UPDATE MEMBER
 exports.update_member = (req, res) => {
 
