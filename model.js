@@ -258,7 +258,12 @@ exports.tambah_laundry = (req, res) => {
 								if(error){
 									response.gagal(error,res)
 								} else{
-									response.ok({'message' : 'berhasil input laundry'}, res);
+									response.ok(
+										{'message' : 'berhasil input laundry',
+										'id_laundry' : aidi,
+										'tanggal' : date,
+										'waktu': time}
+									, res);
 								}
 							});
 							}
