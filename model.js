@@ -349,7 +349,7 @@ exports.order_by_month = (req, res) => {
 //READ ALL ACTIVE ORDER
 exports.order_active = (req, res) => {
 
-    connection.query("SELECT nama, no_tel, id_laundry, tanggal_terima, waktu_terima, status, total_harga, nomor_rak FROM laundry l JOIN member m ON l.id_member = m.id_member WHERE tanggal_ambil = null AND waktu_ambil = null ORDER BY tanggal_terima DESC, waktu_terima DESC",(error,rows,fields)=>{
+    connection.query("SELECT nama, no_tel, id_laundry, tanggal_terima, waktu_terima, status, total_harga, nomor_rak FROM laundry l JOIN member m ON l.id_member = m.id_member WHERE status != 'Selesai' ORDER BY tanggal_terima DESC, waktu_terima DESC",(error,rows,fields)=>{
         if(error){
             response.gagal(error,res)
         } else{
