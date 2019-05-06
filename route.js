@@ -14,7 +14,7 @@ module.exports = (app) => {
 	app.delete('/delete_type/:id', auth.isAuth ,models.delete_type);
 	app.delete('/delete_laundry/:id', auth.isAuth ,models.delete_laundry);
 	app.get('/get_all_laundry', auth.isAuth ,models.all_order);
-	app.get('/get_detail_laundry/:id', auth.isAuth ,models.detail_order);
+	app.get('/get_detail_laundry/:id' ,models.detail_order);
 	app.get('/get_laundry_by_month/:month', auth.isAuth ,models.order_by_month);
 	app.get('/get_laundry_active', auth.isAuth ,models.order_active);
 	app.patch('/update_laundry_taken',auth.isAuth, models.laundry_picked);
